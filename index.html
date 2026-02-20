@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conscious Fathers — Breaking Cycles. Building Legacy.</title>
-    <meta name="description" content="Conscious Fathers is a platform for men navigating fatherhood, personal transformation, and breaking generational patterns through vulnerability and healing work.">
+    <meta name="description" content="Conscious Fathers is a podcast and community for men navigating fatherhood, men's work, and breaking generational cycles — hosted by Adriel Hampton with co-host Jeff Swift.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -84,6 +84,16 @@
             color: var(--text-primary);
             text-decoration: none;
             letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .nav-logo-mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -465,39 +475,92 @@
             border: none;
         }
 
-        .episode-embed .placeholder {
+        /* YouTube consent-aware embeds */
+        .yt-consent-placeholder {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--earth);
+            cursor: pointer;
+        }
+
+        .yt-consent-placeholder.loaded {
+            cursor: default;
+        }
+
+        .yt-consent-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--sand);
             gap: 0.75rem;
+            transition: opacity 0.3s ease;
         }
 
-        .placeholder-play {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 2px solid var(--sand);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .yt-consent-placeholder.loaded .yt-consent-overlay {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        .placeholder-play svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--sand);
-            margin-left: 3px;
+        .yt-consent-play {
+            width: 68px;
+            height: 48px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
-        .placeholder-text {
+        .yt-consent-placeholder:hover .yt-consent-play {
+            transform: scale(1.1);
+        }
+
+        .yt-consent-placeholder:hover .yt-consent-play path:first-child {
+            fill: #e74c3c;
+        }
+
+        .yt-consent-notice {
             font-family: var(--font-body);
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--sand-light);
+            letter-spacing: 0.04em;
+        }
+
+        .yt-consent-privacy {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            font-weight: 300;
+            color: var(--text-light);
+        }
+
+        .yt-consent-privacy a {
+            color: var(--sand);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .yt-consent-placeholder iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* "Video coming soon" state when no video ID set */
+        .yt-consent-placeholder[data-video-id=""] {
+            cursor: default;
+        }
+
+        .yt-consent-placeholder[data-video-id=""] .yt-consent-notice {
+            content: 'Video Coming Soon';
+        }
+
+        .yt-consent-placeholder[data-video-id=""]:hover .yt-consent-play {
+            transform: none;
+        }
+
+        .yt-consent-placeholder[data-video-id=""]:hover .yt-consent-play path:first-child {
+            fill: #C4612A;
         }
 
         .episode-info {
@@ -676,6 +739,161 @@
             color: var(--sand);
         }
 
+        /* ─── TEAM ─── */
+        .team {
+            background: var(--warm-white);
+            padding: 6rem 2rem 3rem;
+        }
+
+        .team-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .team-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .team-card {
+            text-align: center;
+        }
+
+        .team-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .team-role {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ember);
+            margin-bottom: 0.75rem;
+        }
+
+        .team-card p.team-bio {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            font-weight: 300;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .team-support {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--cream-dark);
+        }
+
+        .team-support p {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            font-weight: 300;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .team-support strong {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ─── RESOURCES ─── */
+        .resources {
+            background: var(--cream);
+            padding: 6rem 2rem;
+        }
+
+        .resources-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .resources-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .resources-header p:not(.section-label) {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            background: var(--warm-white);
+            border-radius: 8px;
+            padding: 2rem;
+            border-left: 3px solid var(--ember);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(44, 36, 23, 0.08);
+        }
+
+        .resource-tag {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ember);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card h4 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .resource-card h4 a:hover {
+            color: var(--ember);
+        }
+
+        .resource-card p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
         /* ─── FOOTER ─── */
         footer {
             background: var(--earth);
@@ -702,6 +920,117 @@
             font-family: var(--font-body);
             font-size: 0.8rem;
             color: var(--text-light);
+        }
+
+        /* ─── COOKIE BANNER ─── */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9998;
+            background: var(--earth);
+            border-top: 1px solid rgba(196, 168, 130, 0.15);
+            padding: 1.25rem 2rem;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .cookie-banner.visible {
+            transform: translateY(0);
+        }
+
+        .cookie-banner-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cookie-text {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--sand-light);
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .cookie-text a {
+            color: var(--sand);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            padding: 0.6rem 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cookie-btn-accept {
+            background: var(--ember);
+            color: #fff;
+        }
+
+        .cookie-btn-accept:hover {
+            background: var(--ember-glow);
+        }
+
+        .cookie-btn-essential {
+            background: transparent;
+            color: var(--sand);
+            border: 1px solid rgba(196, 168, 130, 0.3);
+        }
+
+        .cookie-btn-essential:hover {
+            border-color: var(--sand);
+        }
+
+        /* ─── FOOTER LINKS ─── */
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-links a, .footer-links button {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+        }
+
+        .footer-links a:hover, .footer-links button:hover {
+            color: var(--sand);
+        }
+
+        @media (max-width: 640px) {
+            .cookie-banner-inner { flex-direction: column; text-align: center; }
+            .cookie-buttons { width: 100%; justify-content: center; }
+            .footer-inner { flex-direction: column; gap: 0.75rem; text-align: center; }
+            .footer-links { justify-content: center; }
         }
 
         /* ─── ANIMATIONS ─── */
@@ -790,10 +1119,19 @@
 
     <!-- NAV -->
     <nav id="navbar">
-        <a href="#" class="nav-logo">Conscious Fathers</a>
+        <a href="#" class="nav-logo">
+            <svg class="nav-logo-mark" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="400" rx="48" fill="#2C2417"/>
+                <rect x="170" y="105" width="60" height="2.5" rx="1.25" fill="#C4612A"/>
+                <text x="115" y="265" font-family="'Cormorant Garamond','Georgia',serif" font-size="180" font-weight="600" fill="#D9C9AE">C</text>
+                <text x="225" y="265" font-family="'Cormorant Garamond','Georgia',serif" font-size="180" font-weight="400" font-style="italic" fill="#C4612A">F</text>
+            </svg>
+            Conscious Fathers
+        </a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#about">About</a></li>
             <li><a href="#episodes">Listen</a></li>
+            <li><a href="#resources">Resources</a></li>
             <li><a href="#signup">Join</a></li>
         </ul>
         <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle menu">
@@ -806,9 +1144,9 @@
     <!-- HERO -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <p class="hero-eyebrow">A Podcast &amp; Platform for Fathers Doing the Work</p>
+            <p class="hero-eyebrow">Insights &amp; Support for the Most Important Job You'll Ever Have</p>
             <h1>Breaking Cycles.<br><em>Building Legacy.</em></h1>
-            <p class="hero-sub">Honest conversations about fatherhood, healing, vulnerability, and what it means to show up — really show up — for the ones who matter most.</p>
+            <p class="hero-sub">Your kid is watching. Your kid is learning. And one day, they'll tell you a truth that changes everything. This is the podcast for what happens next.</p>
             <div class="hero-cta">
                 <a href="#episodes" class="btn-primary">Listen Now</a>
                 <a href="#signup" class="btn-secondary">Stay Connected</a>
@@ -825,23 +1163,23 @@
             <div class="about-grid">
                 <div class="about-text reveal">
                     <p class="section-label">The Mission</p>
-                    <h2 class="section-heading">We don't inherit <em>only</em> our father's name.</h2>
-                    <p>We inherit patterns. Pain. Silence. The things never said at the dinner table. The distance that felt normal because it was all we knew.</p>
-                    <p>Conscious Fathers is a space for men who've decided that the cycle stops here. Through the podcast, stories, and community, we explore what it looks like to parent from presence instead of programming — to choose healing over hiding.</p>
-                    <p>This isn't about being a perfect father. It's about being an honest one.</p>
+                    <h2 class="section-heading">Our kids are <em>watching.</em> They always were.</h2>
+                    <p>A son grabs his father's finger in the hospital and a twenty-year-old becomes a man overnight. An eight-year-old says from the back seat, <em>"Dad, sometimes we're scared of you"</em> — and a grown man hears his own childhood speaking. A foster child says <em>"I hate you"</em> for a year and a half, and a father learns that love isn't a feeling you receive — it's a container you build.</p>
+                    <p>Conscious Fathers exists because these moments are happening everywhere, and most men face them alone. Through our podcast and community, we share the stories of men who chose to stop hiding, stop performing, and start doing the real work of fatherhood — in men's circles, on camping trips with their sons, in therapy, and in the hardest conversations of their lives.</p>
+                    <p>We're not here because we've figured it out. We're here because we stopped pretending we had.</p>
                 </div>
                 <div class="about-pillars reveal">
                     <div class="pillar">
                         <h4>Breaking Cycles</h4>
-                        <p>Confronting generational patterns of trauma, silence, and emotional distance with courage and intention.</p>
+                        <p>The masks we learned to wear. The shame we carried alone. The anger that came out sideways. Every man on this show has a moment where the pattern cracked — and they chose not to pass it on.</p>
                     </div>
                     <div class="pillar">
-                        <h4>Radical Vulnerability</h4>
-                        <p>Creating space for men to speak honestly about fatherhood, fear, failure, and the work of becoming.</p>
+                        <h4>Kids as Mirrors</h4>
+                        <p>Children don't let you hide. They show you who you really are and teach you what unconditional love actually requires.</p>
                     </div>
                     <div class="pillar">
-                        <h4>Conscious Presence</h4>
-                        <p>Showing up fully — not perfectly — for our children, our partners, and ourselves.</p>
+                        <h4>Men in Community</h4>
+                        <p>Men's circles. Camping trips with our children. Bonfires and initiation rituals. The healing doesn't happen in isolation — it happens when men stop performing strength alone and start showing up for each other.</p>
                     </div>
                 </div>
             </div>
@@ -851,8 +1189,8 @@
     <!-- QUOTE -->
     <div class="quote-divider">
         <blockquote class="reveal">
-            "The wound is the place where the Light enters you."
-            <cite>Rumi</cite>
+            "I surrounded myself with men who loved the shame out of me."
+            <cite>Boysen Hodgson — Episode 02</cite>
         </blockquote>
     </div>
 
@@ -862,54 +1200,116 @@
             <div class="episodes-header reveal">
                 <p class="section-label">The Podcast</p>
                 <h2 class="section-heading">Listen to the <em>Conversation</em></h2>
-                <p>Raw, unscripted conversations about the interior life of fatherhood. No highlight reels — just the real work.</p>
+                <p>Fathers, seekers, and the men doing the work sit down to talk about what no one prepared them for — hosted by Adriel Hampton with co-host Jeff Swift.</p>
             </div>
             <div class="episodes-grid">
                 <!-- Episode 1 -->
                 <div class="episode-card reveal">
                     <div class="episode-embed">
-                        <!-- Replace YOUR_VIDEO_ID_1 with your actual YouTube video ID -->
-                        <div class="placeholder" id="ep1-placeholder">
-                            <div class="placeholder-play">
-                                <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                        
+                        <div class="yt-consent-placeholder" data-video-id="R16sAGOYcYI" data-title="Episode 1 — Dylan Hoffman">
+                            <div class="yt-consent-overlay">
+                                <div class="yt-consent-play">
+                                    <svg viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.63-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#C4612A"/><path d="M45 24L27 14v20" fill="#fff"/></svg>
+                                </div>
+                                <span class="yt-consent-notice">Click to load video from YouTube</span>
+                                <span class="yt-consent-privacy">Loading will connect to Google's servers. <a href="privacy.html">Privacy policy</a></span>
                             </div>
-                            <span class="placeholder-text">Video Coming Soon</span>
                         </div>
-                        <!-- Uncomment and add your YouTube ID when ready:
-                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" 
-                                title="Episode 1" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>
-                        -->
                     </div>
                     <div class="episode-info">
-                        <p class="episode-number">Episode 01</p>
-                        <h3>The Weight We Carry</h3>
-                        <p>An introduction to Conscious Fathers — why this conversation matters, and what happens when men start telling the truth about fatherhood.</p>
+                        <p class="episode-number">Episode 01 — Dylan Hoffman</p>
+                        <h3>From Young Single Dad to Conscious Father</h3>
+                        <p>Dylan became a father at 20, navigated two divorces, and found his way through spiritual awakening, Burning Man, and men's circles. We talk about initiation rituals for boys, the YMCA Adventure Guides, and how his four children taught him who he really is.</p>
                     </div>
                 </div>
                 <!-- Episode 2 -->
                 <div class="episode-card reveal">
                     <div class="episode-embed">
-                        <!-- Replace YOUR_VIDEO_ID_2 with your actual YouTube video ID -->
-                        <div class="placeholder" id="ep2-placeholder">
-                            <div class="placeholder-play">
-                                <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                        
+                        <div class="yt-consent-placeholder" data-video-id="3xUeQ_FXxuo" data-title="Episode 2 — Boysen Hodgson">
+                            <div class="yt-consent-overlay">
+                                <div class="yt-consent-play">
+                                    <svg viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.63-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#C4612A"/><path d="M45 24L27 14v20" fill="#fff"/></svg>
+                                </div>
+                                <span class="yt-consent-notice">Click to load video from YouTube</span>
+                                <span class="yt-consent-privacy">Loading will connect to Google's servers. <a href="privacy.html">Privacy policy</a></span>
                             </div>
-                            <span class="placeholder-text">Video Coming Soon</span>
                         </div>
-                        <!-- Uncomment and add your YouTube ID when ready:
-                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" 
-                                title="Episode 2" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>
-                        -->
                     </div>
                     <div class="episode-info">
-                        <p class="episode-number">Episode 02</p>
-                        <h3>Inherited Silence</h3>
-                        <p>Exploring the patterns passed down without words — how the things our fathers never said shaped the men we became.</p>
+                        <p class="episode-number">Episode 02 — Boysen Hodgson</p>
+                        <h3>"The New Macho" — Shame, Foster Fatherhood &amp; Redefining Manhood</h3>
+                        <p>The Mankind Project's Boysen Hodgson on years of hiding behind masks, the men's work that cracked him open, adopting two siblings who changed everything, and why identity is a discourse — not a destination.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team" id="team">
+        <div class="team-inner">
+            <div class="team-header reveal">
+                <p class="section-label">The Voices</p>
+                <h2 class="section-heading">Who's in the <em>Circle</em></h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-card reveal">
+                    <h4>Adriel Hampton</h4>
+                    <p class="team-role">Host</p>
+                    <p class="team-bio">Journalist, digital strategist, and UC Berkeley rhetoric graduate. Father of three sons — ages 21, 18, and 7. Adriel lives in Carlsbad, California, where he's navigating the long road from the father his kids feared to the father they deserve. His journey through men's work, therapy, and the Mankind Project's New Warrior Training is the origin story behind Conscious Fathers.</p>
+                </div>
+                <div class="team-card reveal">
+                    <h4>Jeff Swift</h4>
+                    <p class="team-role">Co-Host</p>
+                    <p class="team-bio">Author, digital media specialist, and father of three. Jeff holds a PhD in Communication, Rhetoric, and Digital Media from NC State, which means he's professionally trained to ask the questions most of us avoid. On the show, he brings philosophical depth and a gift for drawing out the ideas beneath the stories — like whether consciousness is our default state or something we have to fight to recover.</p>
+                </div>
+            </div>
+            <div class="team-support reveal">
+                <p>Conscious Fathers is supported by media producer <strong>Charles Lenchner</strong> — co-founder of People for Bernie Sanders, digital organizing pioneer, and longtime movement builder. Charles brings decades of experience amplifying the voices that matter most.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="resources" id="resources">
+        <div class="resources-inner">
+            <div class="resources-header reveal">
+                <p class="section-label">Go Deeper</p>
+                <h2 class="section-heading">Resources for <em>the Work</em></h2>
+                <p>Books, organizations, and voices that have shaped our conversations and our guests' journeys.</p>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card reveal">
+                    <p class="resource-tag">Organization</p>
+                    <h4><a href="https://mankindproject.org" target="_blank" rel="noopener">The ManKind Project</a></h4>
+                    <p>A global brotherhood of men committed to emotional intelligence and personal accountability. Home of the New Warrior Training Adventure — a weekend that changed the lives of multiple guests on this show.</p>
+                </div>
+                <div class="resource-card reveal">
+                    <p class="resource-tag">Organization</p>
+                    <h4><a href="https://goodmenproject.com" target="_blank" rel="noopener">The Good Men Project</a></h4>
+                    <p>A media platform and community exploring what it means to be a good man in the 21st century — ethics, fatherhood, relationships, and the evolving conversation around masculinity.</p>
+                </div>
+                <div class="resource-card reveal">
+                    <p class="resource-tag">Author &amp; Speaker</p>
+                    <h4><a href="https://drshefali.com" target="_blank" rel="noopener">Dr. Shefali Tsabary</a></h4>
+                    <p>Clinical psychologist and author of <em>The Conscious Parent</em> and <em>The Awakened Family</em>. Her work on moving from ego-driven to consciousness-based parenting is foundational to our mission.</p>
+                </div>
+                <div class="resource-card reveal">
+                    <p class="resource-tag">Book</p>
+                    <h4>The Will to Change — bell hooks</h4>
+                    <p>A powerful call for men to embrace emotional wholeness. Recommended by Boysen Hodgson in Episode 02 as essential reading for any man seeking to understand what patriarchy costs him.</p>
+                </div>
+                <div class="resource-card reveal">
+                    <p class="resource-tag">Book</p>
+                    <h4>Iron John — Robert Bly</h4>
+                    <p>The landmark exploration of male initiation through myth and fairy tale. Referenced across both episodes as a touchstone for understanding what boys need to become men.</p>
+                </div>
+                <div class="resource-card reveal">
+                    <p class="resource-tag">Book</p>
+                    <h4>King, Warrior, Magician, Lover — Robert Moore &amp; Douglas Gillette</h4>
+                    <p>A guide to the four mature masculine archetypes. Recommended by Dylan Hoffman in Episode 01 as a core text in his men's work with the Forge.</p>
                 </div>
             </div>
         </div>
@@ -921,46 +1321,52 @@
             <div class="reveal">
                 <p class="section-label">Stay Connected</p>
                 <h2 class="section-heading" style="color: var(--sand-light);">Join the <em>Circle</em></h2>
-                <p class="signup-desc">Be the first to hear new episodes, get invited to live events, and become part of a growing community of fathers committed to doing the work.</p>
+                <p class="signup-desc">New episodes, live conversations, and a growing circle of men who've decided that the hiding stops here. Whether you're a single dad at 20, a foster parent answering the call, or a guy who just realized his kids can see right through him — you belong here.</p>
             </div>
 
-            <form class="signup-form reveal" id="interestForm">
+            <form class="signup-form reveal" id="interestForm" action="https://formsubmit.co/ajax/cf@adrielhampton.com" method="POST">
+                <!-- FormSubmit configuration -->
+                <input type="hidden" name="_subject" value="New Conscious Fathers signup">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="text" name="_honey" style="display:none">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">First Name *</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                        <input type="text" id="firstName" name="First Name" placeholder="Your first name" required>
                     </div>
                     <div class="form-field">
                         <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="Your last name">
+                        <input type="text" id="lastName" name="Last Name" placeholder="Your last name">
                     </div>
                 </div>
                 <div class="form-field">
                     <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    <input type="email" id="email" name="Email" placeholder="you@example.com" required>
                 </div>
                 <div class="form-field">
                     <label for="interest">What draws you here?</label>
-                    <select id="interest" name="interest">
+                    <select id="interest" name="What Draws You Here">
                         <option value="">Select one...</option>
-                        <option value="father">I'm a father looking for community</option>
-                        <option value="expecting">I'm expecting / about to become a father</option>
-                        <option value="healing">I'm on a healing journey</option>
-                        <option value="professional">I work with fathers / families</option>
-                        <option value="curious">I'm curious about the mission</option>
-                        <option value="other">Something else</option>
+                        <option value="I'm a father looking for community">I'm a father looking for community</option>
+                        <option value="I'm in men's work / men's circles">I'm in men's work / men's circles</option>
+                        <option value="I'm on a healing or recovery journey">I'm on a healing or recovery journey</option>
+                        <option value="I'm a new or expecting father">I'm a new or expecting father</option>
+                        <option value="I love a man who needs this">I love a man who needs this</option>
+                        <option value="I work with fathers / families / boys">I work with fathers / families / boys</option>
+                        <option value="I'm curious about the mission">I'm curious about the mission</option>
                     </select>
                 </div>
                 <div class="form-field">
                     <label for="message">Anything you'd like to share? (Optional)</label>
-                    <textarea id="message" name="message" placeholder="Your story, your questions, what you're hoping to find here..."></textarea>
+                    <textarea id="message" name="Message" placeholder="Your story, your questions, what you're hoping to find here..."></textarea>
                 </div>
                 <button type="submit" class="btn-primary" id="submitBtn">Join the Circle</button>
             </form>
 
             <div class="form-success" id="formSuccess">
                 <h3>Welcome to the circle.</h3>
-                <p>We'll be in touch. In the meantime — keep showing up.</p>
+                <p>You don't have to do this alone. We'll be in touch.</p>
             </div>
         </div>
     </section>
@@ -968,10 +1374,36 @@
     <!-- FOOTER -->
     <footer>
         <div class="footer-inner">
-            <span class="footer-brand">Conscious Fathers</span>
+            <span class="footer-brand">
+                <svg width="24" height="24" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 0.4rem; border-radius: 4px;">
+                    <rect width="400" height="400" rx="48" fill="#2C2417"/>
+                    <rect x="170" y="105" width="60" height="2.5" rx="1.25" fill="#C4612A"/>
+                    <text x="115" y="265" font-family="'Cormorant Garamond','Georgia',serif" font-size="180" font-weight="600" fill="#D9C9AE">C</text>
+                    <text x="225" y="265" font-family="'Cormorant Garamond','Georgia',serif" font-size="180" font-weight="400" font-style="italic" fill="#C4612A">F</text>
+                </svg>
+                Conscious Fathers
+            </span>
             <span class="footer-copy">&copy; 2026 consciousfathers.org. All rights reserved.</span>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <button id="cookieSettingsBtn" type="button">Cookie Settings</button>
+            </div>
         </div>
     </footer>
+
+    <!-- COOKIE CONSENT BANNER -->
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+        <div class="cookie-banner-inner">
+            <p class="cookie-text">
+                We use essential cookies to make this site work. Our podcast episodes use YouTube embeds — choosing "Accept All" loads them automatically, while "Essential Only" requires you to click each video before it connects to Google. 
+                <a href="privacy.html">Read our privacy policy</a>.
+            </p>
+            <div class="cookie-buttons">
+                <button class="cookie-btn cookie-btn-essential" id="cookieEssential">Essential Only</button>
+                <button class="cookie-btn cookie-btn-accept" id="cookieAccept">Accept All</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ─── NAV SCROLL EFFECT ───
@@ -1002,35 +1434,10 @@
         }, { threshold: 0.15 });
         revealElements.forEach(el => observer.observe(el));
 
-        // ─── FORM SUBMISSION → GOOGLE SHEETS ───
-        // 
-        // SETUP INSTRUCTIONS:
-        // 1. Create a Google Sheet with columns: Timestamp, First Name, Last Name, Email, Interest, Message
-        // 2. Go to Extensions → Apps Script
-        // 3. Paste this code in Apps Script:
-        //
-        //    function doPost(e) {
-        //      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-        //      var data = JSON.parse(e.postData.contents);
-        //      sheet.appendRow([
-        //        new Date(),
-        //        data.firstName,
-        //        data.lastName,
-        //        data.email,
-        //        data.interest,
-        //        data.message
-        //      ]);
-        //      return ContentService
-        //        .createTextOutput(JSON.stringify({result: 'success'}))
-        //        .setMimeType(ContentService.MimeType.JSON);
-        //    }
-        //
-        // 4. Deploy → New Deployment → Web App
-        //    - Execute as: Me
-        //    - Who has access: Anyone
-        // 5. Copy the deployment URL and paste it below:
-
-        const GOOGLE_SHEETS_URL = ''; // ← Paste your Apps Script Web App URL here
+        // ─── FORM SUBMISSION → FORMSUBMIT.CO → EMAIL ───
+        // FormSubmit.co sends each submission to cf@adrielhampton.com
+        // First-time setup: FormSubmit will send a confirmation email to that address.
+        // Click the link in that email to activate. After that, all submissions arrive automatically.
 
         const form = document.getElementById('interestForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -1039,36 +1446,149 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const formData = {
-                firstName: document.getElementById('firstName').value.trim(),
-                lastName: document.getElementById('lastName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                interest: document.getElementById('interest').value,
-                message: document.getElementById('message').value.trim()
-            };
-
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            if (GOOGLE_SHEETS_URL) {
-                try {
-                    await fetch(GOOGLE_SHEETS_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(formData)
-                    });
-                } catch (err) {
-                    console.log('Submission sent (no-cors mode).');
-                }
-            } else {
-                // Demo mode — log to console if no URL configured
-                console.log('Form data (configure GOOGLE_SHEETS_URL to send to Google Sheets):', formData);
-            }
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(formData))
+                });
 
-            // Show success
-            form.style.display = 'none';
-            formSuccess.classList.add('show');
+                if (response.ok) {
+                    form.style.display = 'none';
+                    formSuccess.classList.add('show');
+                } else {
+                    submitBtn.textContent = 'Something went wrong — try again';
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                // Likely a network issue or CORS — still show success since FormSubmit may have received it
+                form.style.display = 'none';
+                formSuccess.classList.add('show');
+            }
+        });
+
+        // ─── COOKIE CONSENT ───
+        // Respects GPC and DNT signals per California law
+        const cookieBanner = document.getElementById('cookieBanner');
+        const cookieAcceptBtn = document.getElementById('cookieAccept');
+        const cookieEssentialBtn = document.getElementById('cookieEssential');
+        const cookieSettingsBtn = document.getElementById('cookieSettingsBtn');
+
+        function detectPrivacySignal() {
+            if (navigator.globalPrivacyControl) return true;
+            if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return true;
+            return false;
+        }
+
+        function getCookieConsent() {
+            try { return localStorage.getItem('cf_cookie_consent'); } catch (e) { return null; }
+        }
+
+        function setCookieConsent(value) {
+            try {
+                localStorage.setItem('cf_cookie_consent', value);
+                localStorage.setItem('cf_cookie_consent_date', new Date().toISOString());
+            } catch (e) {}
+        }
+
+        function hideBanner() {
+            cookieBanner.classList.remove('visible');
+        }
+
+        function showBanner() {
+            setTimeout(() => cookieBanner.classList.add('visible'), 800);
+        }
+
+        // ─── YOUTUBE EMBED MANAGEMENT ───
+        // youtube-nocookie.com = YouTube's privacy-enhanced mode
+        // No cookies until user actually plays the video
+
+        function loadYouTubeEmbed(placeholder) {
+            const videoId = placeholder.dataset.videoId;
+            const title = placeholder.dataset.title || 'Video';
+            if (!videoId) return; // No video ID set yet
+
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}`;
+            iframe.title = title;
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.loading = 'lazy';
+            placeholder.appendChild(iframe);
+            placeholder.classList.add('loaded');
+        }
+
+        function autoLoadAllEmbeds() {
+            // Called when user has given "Accept All" consent
+            document.querySelectorAll('.yt-consent-placeholder').forEach(p => {
+                if (!p.classList.contains('loaded') && p.dataset.videoId) {
+                    loadYouTubeEmbed(p);
+                }
+            });
+        }
+
+        function setupClickToLoad() {
+            // Called for "Essential Only" or no consent — user must click to load each video
+            document.querySelectorAll('.yt-consent-placeholder').forEach(p => {
+                if (p.dataset.videoId && !p.classList.contains('loaded')) {
+                    p.addEventListener('click', function handler() {
+                        loadYouTubeEmbed(p);
+                        p.removeEventListener('click', handler);
+                    });
+                }
+            });
+        }
+
+        // Update placeholder text for "coming soon" state
+        document.querySelectorAll('.yt-consent-placeholder[data-video-id=""]').forEach(p => {
+            const notice = p.querySelector('.yt-consent-notice');
+            const privacy = p.querySelector('.yt-consent-privacy');
+            if (notice) notice.textContent = 'Video Coming Soon';
+            if (privacy) privacy.style.display = 'none';
+        });
+
+        function applyConsent(level) {
+            setCookieConsent(level);
+            hideBanner();
+
+            if (level === 'all') {
+                // Auto-load YouTube embeds for users who accepted all cookies
+                autoLoadAllEmbeds();
+                console.log('Cookie consent: all cookies accepted. YouTube embeds auto-loaded.');
+            } else {
+                // Essential only — click-to-load for YouTube
+                setupClickToLoad();
+                console.log('Cookie consent: essential only. YouTube requires click to load.');
+            }
+        }
+
+        // If GPC/DNT is active, automatically set to essential only
+        if (detectPrivacySignal() && !getCookieConsent()) {
+            applyConsent('essential');
+        }
+
+        // Apply existing consent or show banner
+        const existingConsent = getCookieConsent();
+        if (existingConsent) {
+            applyConsent(existingConsent);
+        } else {
+            // No consent yet — set up click-to-load as default, show banner
+            setupClickToLoad();
+            showBanner();
+        }
+
+        cookieAcceptBtn.addEventListener('click', () => applyConsent('all'));
+        cookieEssentialBtn.addEventListener('click', () => applyConsent('essential'));
+
+        // Footer "Cookie Settings" button — reset and re-show banner
+        cookieSettingsBtn.addEventListener('click', () => {
+            try { localStorage.removeItem('cf_cookie_consent'); } catch (e) {}
+            showBanner();
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
     </script>
 
