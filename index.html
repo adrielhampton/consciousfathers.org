@@ -1321,15 +1321,12 @@
             <div class="reveal">
                 <p class="section-label">Stay Connected</p>
                 <h2 class="section-heading" style="color: var(--sand-light);">Join the <em>Circle</em></h2>
-                <p class="signup-desc">New episodes, live conversations, and a growing circle of men who've decided that the hiding stops here. Whether you're a single dad at 20, a foster parent answering the call, or a guy who just realized his kids can see right through him — you belong here.</p>
+                <p class="signup-desc">New episodes, live conversations, and a growing circle of men who've decided that the hiding stops here. Whether you're a single dad at 20, a foster parent answering the call, or a guy who just realized his kids can see right through him — you belong here. Know someone with a story to share? Nominate yourself or someone else as a podcast guest.</p>
             </div>
 
-            <form class="signup-form reveal" id="interestForm" action="https://formsubmit.co/adriel@adrielhampton.com" method="POST">
-                <!-- FormSubmit configuration -->
-                <input type="hidden" name="_subject" value="New Conscious Fathers signup">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="text" name="_honey" style="display:none">
+            <form class="signup-form reveal" id="interestForm">
+                <!-- Honeypot field — hidden from humans, catches bots -->
+                <input type="text" name="_honey" id="honeyField" style="display:none" tabindex="-1" autocomplete="off">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="firstName">First Name *</label>
@@ -1345,10 +1342,12 @@
                     <input type="email" id="email" name="Email" placeholder="you@example.com" required>
                 </div>
                 <div class="form-field">
-                    <label for="interest">What draws you here?</label>
-                    <select id="interest" name="What Draws You Here">
+                    <label for="interest">What brings you here?</label>
+                    <select id="interest" name="What Brings You Here">
                         <option value="">Select one...</option>
                         <option value="I'm a father looking for community">I'm a father looking for community</option>
+                        <option value="I'd like to be a guest on the podcast">I'd like to be a guest on the podcast</option>
+                        <option value="I'm nominating someone as a podcast guest">I'm nominating someone as a podcast guest</option>
                         <option value="I'm in men's work / men's circles">I'm in men's work / men's circles</option>
                         <option value="I'm on a healing or recovery journey">I'm on a healing or recovery journey</option>
                         <option value="I'm a new or expecting father">I'm a new or expecting father</option>
@@ -1358,8 +1357,8 @@
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="message">Anything you'd like to share? (Optional)</label>
-                    <textarea id="message" name="Message" placeholder="Your story, your questions, what you're hoping to find here..."></textarea>
+                    <label for="message">Tell us more — your story, a guest nomination, or what you're hoping to find here. (Optional)</label>
+                    <textarea id="message" name="Message" placeholder="If nominating a guest, include their name and how to reach them..."></textarea>
                 </div>
                 <button type="submit" class="btn-primary" id="submitBtn">Join the Circle</button>
             </form>
@@ -1434,10 +1433,11 @@
         }, { threshold: 0.15 });
         revealElements.forEach(el => observer.observe(el));
 
-        // ─── FORM SUBMISSION → FORMSUBMIT.CO → EMAIL ───
-        // FormSubmit.co sends each submission to adriel@adrielhampton.com
-        // First-time setup: FormSubmit will send a confirmation email to that address.
-        // Click the link in that email to activate. After that, all submissions arrive automatically.
+        // ─── FORM SUBMISSION → GOOGLE SHEETS + EMAIL ───
+        // Posts to a Google Apps Script web app that appends to a spreadsheet
+        // and sends an email notification to adriel@adrielhampton.com.
+
+        const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz-L_LLo53c2kcZAYfsfeI3QYK5PubeUBswBJY7KEOFPaXM1vyHrQ2o2MLDkUHXY3BXzA/exec';
 
         const form = document.getElementById('interestForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -1446,23 +1446,36 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Honeypot check — if filled, it's a bot
+            const honey = document.getElementById('honeyField');
+            if (honey && honey.value) return;
+
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
+            const data = {
+                'First Name': form.querySelector('[name="First Name"]').value,
+                'Last Name': form.querySelector('[name="Last Name"]').value,
+                'Email': form.querySelector('[name="Email"]').value,
+                'What Brings You Here': form.querySelector('[name="What Brings You Here"]').value,
+                'Message': form.querySelector('[name="Message"]').value
+            };
+
             try {
-                const formData = new FormData(form);
-                // Use no-cors mode — this reliably delivers data to FormSubmit
-                // even before email activation. We can't read the response,
-                // but the submission goes through.
-                await fetch('https://formsubmit.co/adriel@adrielhampton.com', {
+                const response = await fetch(FORM_ENDPOINT, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(data)
                 });
 
-                // Show success — data was sent
-                form.style.display = 'none';
-                formSuccess.classList.add('show');
+                const result = await response.json();
+                if (result.result === 'success') {
+                    form.style.display = 'none';
+                    formSuccess.classList.add('show');
+                } else {
+                    submitBtn.textContent = 'Something went wrong — try again';
+                    submitBtn.disabled = false;
+                }
             } catch (err) {
                 console.error('Form submission error:', err);
                 submitBtn.textContent = 'Something went wrong — try again';
