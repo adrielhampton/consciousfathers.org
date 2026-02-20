@@ -1451,23 +1451,34 @@
 
             try {
                 const formData = new FormData(form);
+                const jsonData = Object.fromEntries(formData);
+
                 const response = await fetch(form.action, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify(Object.fromEntries(formData))
+                    body: JSON.stringify(jsonData)
                 });
 
-                if (response.ok) {
+                const result = await response.json().catch(() => ({}));
+
+                if (response.ok && result.success !== false) {
                     form.style.display = 'none';
                     formSuccess.classList.add('show');
                 } else {
-                    submitBtn.textContent = 'Something went wrong — try again';
+                    // FormSubmit returns details about what went wrong
+                    console.error('FormSubmit response:', response.status, result);
+                    submitBtn.textContent = result.message || 'Something went wrong — try again';
                     submitBtn.disabled = false;
                 }
             } catch (err) {
-                // Likely a network issue or CORS — still show success since FormSubmit may have received it
-                form.style.display = 'none';
-                formSuccess.classList.add('show');
+                console.error('Form submission error:', err);
+                // Network error — could be CORS from local file, or connectivity
+                submitBtn.textContent = 'Network error — are you online?';
+                submitBtn.disabled = false;
+                // If testing locally, show a helpful note
+                if (window.location.protocol === 'file:') {
+                    submitBtn.textContent = 'Form requires a hosted site — deploy first';
+                }
             }
         });
 
@@ -1556,28 +1567,37 @@
             hideBanner();
 
             if (level === 'all') {
-                // Auto-load YouTube embeds for users who accepted all cookies
                 autoLoadAllEmbeds();
                 console.log('Cookie consent: all cookies accepted. YouTube embeds auto-loaded.');
             } else {
-                // Essential only — click-to-load for YouTube
                 setupClickToLoad();
                 console.log('Cookie consent: essential only. YouTube requires click to load.');
             }
         }
 
-        // If GPC/DNT is active, automatically set to essential only
-        if (detectPrivacySignal() && !getCookieConsent()) {
-            applyConsent('essential');
-        }
-
-        // Apply existing consent or show banner
+        // Detect privacy signals and set up initial state
+        const hasPrivacySignal = detectPrivacySignal();
         const existingConsent = getCookieConsent();
+
         if (existingConsent) {
+            // Returning visitor — apply their saved preference silently
             applyConsent(existingConsent);
         } else {
-            // No consent yet — set up click-to-load as default, show banner
+            // First visit — set up click-to-load as safe default
             setupClickToLoad();
+
+            // If GPC/DNT detected, update banner text to acknowledge it
+            if (hasPrivacySignal) {
+                const bannerText = cookieBanner.querySelector('.cookie-text');
+                if (bannerText) {
+                    bannerText.innerHTML = 'Your browser is sending a <strong>privacy signal</strong> (Global Privacy Control or Do Not Track). ' +
+                        'We\'ve defaulted to essential-only mode — YouTube videos won\'t load until you click them. ' +
+                        'You can accept all cookies if you prefer auto-loading videos. ' +
+                        '<a href="privacy.html">Read our privacy policy</a>.';
+                }
+            }
+
+            // Always show the banner on first visit so the user knows what's happening
             showBanner();
         }
 
@@ -1587,6 +1607,13 @@
         // Footer "Cookie Settings" button — reset and re-show banner
         cookieSettingsBtn.addEventListener('click', () => {
             try { localStorage.removeItem('cf_cookie_consent'); } catch (e) {}
+            // Reset banner text to default
+            const bannerText = cookieBanner.querySelector('.cookie-text');
+            if (bannerText) {
+                bannerText.innerHTML = 'We use essential cookies to make this site work. Our podcast episodes use YouTube embeds — ' +
+                    'choosing "Accept All" loads them automatically, while "Essential Only" requires you to click each video before it connects to Google. ' +
+                    '<a href="privacy.html">Read our privacy policy</a>.';
+            }
             showBanner();
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
